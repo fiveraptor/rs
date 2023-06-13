@@ -11,6 +11,8 @@ from adafruit_hid.keyboard import Keyboard
 
 # uncomment these lines for non_US keyboards
 # replace LANG with appropriate language
+
+# gr statt sg für deutsches Layout
 from keyboard_layout_win_sg import KeyboardLayout
 from keycode_win_sg import Keycode
 
