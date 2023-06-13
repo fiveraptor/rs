@@ -43,4 +43,4 @@ foreach ($file in $files) {
     }
 }
 
-Write-Host "Der Upload wurde abgeschlossen."
+
